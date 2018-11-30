@@ -5,4 +5,4 @@ int myinput(char *, int);
 #define YY_INPUT(buf, result, max) (result = myinput(buf, max))
 
 /* yacc */
-int yyerror(char *);
+_Noreturn int yyerror(char *);

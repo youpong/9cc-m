@@ -15,7 +15,13 @@ int main(int argc, char **argv) {
   printf("main:\n");
 
   yyparse();
+
   printf("\tret\n");
 
   return EXIT_SUCCESS;
+}
+
+_Noreturn int yyerror(char *msg) {
+  fprintf(stderr, "%s\n", msg);
+  exit(EXIT_FAILURE);
 }
