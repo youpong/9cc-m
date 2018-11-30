@@ -14,6 +14,7 @@
     yylval = tmp;
     return NUMBER;
 }
+[ \t] ; /* ignore white space */
 
 \n |
 .  return yytext[0];

@@ -5,13 +5,14 @@ YACC = yacc
 LEX = flex
 
 TARGET = 9cc
-OBJS = lex.yy.o y.tab.o main.o
+OBJS = lex.yy.o y.tab.o main.o myinput.o
 LIBS = -ly -ll -lm
 
 all: $(TARGET)
 
 clean:
-	- rm -f a.out y.tab.h y.tab.c lex.yy.c lex.yy.h $(OBJS) $(TARGET)
+	- rm -f *.o test_lex a.out \
+                y.tab.h y.tab.c lex.yy.c lex.yy.h $(TARGET)
 
 $(TARGET): $(OBJS)
 	$(CC) -o $@ $(OBJS) $(LIBS)
@@ -24,6 +25,11 @@ lex.yy.h lex.yy.c: lex.l
 main.o lex.yy.o: y.tab.h
 y.tab.o: lex.yy.h
 $(OBJS): 9cc.h
+
+# test yylex
+test_lex: lex.yy.o y.tab.o test_lex.o myinput.o
+	$(CC) -o $@  lex.yy.o y.tab.o test_lex.o myinput.o $(LIBS)
+test_lex.o: lex.yy.h y.tab.h
 
 .c.o:
 	$(CC) -c $< $(CFLAGS) $(DEBUG)
