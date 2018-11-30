@@ -4,8 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void codegen();
-
+static void codegen();
+static void *vec_pop(Vector *vec);
+  
 char **targv;
 char **arglim;
 
@@ -48,16 +49,16 @@ Element *new_element(int type) {
   return e;
 }
   
-void codegen() {
+static void codegen() {
   Element *e;
-  
+
   e = vec_pop(stack);
   if (e == NULL && e->type != NUMBER)
     error("unexpected type of element\n");
 
   printf("\tmov rax, %d\n", e->val);
 
-  while( (e = vec_pop(stack)) != NULL) {
+  while ((e = vec_pop(stack)) != NULL) {
     switch(e->type) {
     case '+':
       printf("\tadd rax, ");
@@ -72,5 +73,14 @@ void codegen() {
       error("unexpected type of element\n");
       break;
     }
+
   }
+}
+
+static void *vec_pop(Vector *vec) {
+  if(vec->len == 0)
+    return NULL;
+  
+  vec->len -= 1;
+  return vec->data[vec->len];
 }

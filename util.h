@@ -15,7 +15,6 @@ typedef struct {
 Vector *new_vector();
 
 void vec_push(Vector *, void *);
-void *vec_pop(Vector *);
 
 Map *new_map();
 
