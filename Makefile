@@ -5,7 +5,7 @@ YACC = yacc
 LEX = flex
 
 TARGET = 9cc
-OBJS = lex.yy.o y.tab.o main.o myinput.o
+OBJS = lex.yy.o y.tab.o main.o myinput.o util.o
 LIBS = -ly -ll -lm
 
 all: $(TARGET)
@@ -25,8 +25,8 @@ y.tab.c y.tab.h: parse.y
 lex.yy.h lex.yy.c: lex.l
 	$(LEX) --header-file=lex.yy.h $<
 
-main.o lex.yy.o: y.tab.h
-y.tab.o: lex.yy.h
+main.o lex.yy.o: y.tab.h util.h
+y.tab.o: lex.yy.h util.h
 $(OBJS): 9cc.h
 
 # test yylex
