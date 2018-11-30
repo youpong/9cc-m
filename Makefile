@@ -14,6 +14,9 @@ clean:
 	- rm -f *.o test_lex a.out \
                 y.tab.h y.tab.c lex.yy.c lex.yy.h $(TARGET)
 
+test: $(TARGET)
+	./test.sh
+
 $(TARGET): $(OBJS)
 	$(CC) -o $@ $(OBJS) $(LIBS)
 
