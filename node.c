@@ -20,3 +20,9 @@ Node *new_node_num(int val) {
   return node;
 }
 
+Node *new_node_id(char name) {
+  Node *node = malloc(sizeof(Node));
+  node->ty = IDENT;
+  node->name = name;
+  return node;
+}

@@ -14,12 +14,17 @@
       yylval.val = tmp;
       return NUMBER;
 }
+[a-z] {
+      yylval.name = yytext[0];
+      return IDENT;
+}
 \+    return '+';
 -     return '-';
 \*    return '*';
-\/     return '/';
+\/    return '/';
 \(    return '(';
-\)     return ')';
+\)    return ')';
+;     return ';';
 [ \t] ; /* ignore white space */
 
 \n |

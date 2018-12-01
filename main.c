@@ -9,11 +9,10 @@ static void codegen(Node *node);
 char **targv;
 char **arglim;
 
-Vector *stack;
-Node *node;
+Vector *assigns;
 
 int main(int argc, char **argv) {
-  stack = new_vector();
+  assigns = new_vector();
 
   targv = argv + 1;
   arglim = argv + argc;
@@ -22,10 +21,13 @@ int main(int argc, char **argv) {
   printf(".global main\n");
   printf("main:\n");
 
-  yyparse();     // AST を global node に設定する
-  codegen(node); // global node を処理
+  yyparse(); 
 
-  printf("\tpop rax\n");
+  while(assigns->len > 0) {
+    codegen(vec_pop(assigns));
+    printf("\tpop rax\n");    
+  }
+
   printf("\tret\n");
 
   return EXIT_SUCCESS;
