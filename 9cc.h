@@ -15,7 +15,22 @@ typedef struct {
   int val;  // value of NUMBER
 } Element;
 
-extern Vector *stack;
-
 Element *new_num_element(int);
 Element *new_element(int);
+
+extern Vector *stack;
+
+/* Node */
+typedef struct Node {
+  int ty; // 演算子 | ND_NUM | ND_IDENT
+  struct Node *lhs;
+  struct Node *rhs;
+  int val;
+  char *name;
+} Node;
+
+Node *new_node(int, Node *, Node *);
+Node *new_node_num(int);
+
+extern Node *node;
+

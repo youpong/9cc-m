@@ -9,15 +9,19 @@
 
 %%
 [0-9][0-9]* {
-    int tmp;
-    sscanf(yytext, "%d", &tmp);
-    yylval = tmp;
-    return NUMBER;
+      int tmp;
+      sscanf(yytext, "%d", &tmp);
+      yylval.val = tmp;
+      return NUMBER;
 }
-\+  return '+';
--   return '-';
+\+    return '+';
+-     return '-';
+\*    return '*';
+\/     return '/';
+\(    return '(';
+\)     return ')';
 [ \t] ; /* ignore white space */
 
 \n |
-.   yyerror("cannot tokenize"); 
+.     yyerror("cannot tokenize");
 %%

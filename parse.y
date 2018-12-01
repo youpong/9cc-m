@@ -5,16 +5,29 @@
 #include <stdio.h>
 %}
 
-%token NUMBER
+%union {
+       int val;
+       Node *node;
+}
+
+%token <val> NUMBER
+
+%type <node> mul expr term
 
 %%
-statement: expr
-expr: NUMBER          { vec_push(stack, new_num_element($1)); }
-    | NUMBER '+' expr { vec_push(stack, new_element('+'));
-                        vec_push(stack, new_num_element($1)); }
-    | NUMBER '-' expr { vec_push(stack, new_element('-'));
-			vec_push(stack, new_num_element($1)); }
-    ;
+statement: expr          { node = $1; }
+         ;
+expr:      mul           { $$ = $1; }
+         | mul  '+' expr { $$ = new_node('+', $1, $3); }
+         | mul  '-' expr { $$ = new_node('-', $1, $3); }
+         ;
+mul:       term          { $$ = $1; }
+         | term '*' mul  { $$ = new_node('*', $1, $3); }
+	 | term '/' mul  { $$ = new_node('/', $1, $3); }
+	 ;
+term:      NUMBER        { $$ = new_node_num($1); }
+         | '(' expr ')'  { $$ = $2; }
+	 ;
 %%
 
 

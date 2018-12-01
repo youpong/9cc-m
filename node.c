@@ -19,16 +19,4 @@ Node *new_node_num(int val) {
   node->val = val;
   return node;
 }
-/*
-Node *new_node_id(char *name) {
-  Node *node = malloc(sizeof(Node));
-  node->ty = ND_IDENT;
-  node->name = malloc(sizeof(char) * strlen(name));
-  strcpy(node->name, name);
-  return node;
-}
-*/
 
-#ifdef UNIT_TEST
-int main() { return 0; }
-#endif

@@ -5,7 +5,7 @@ YACC = yacc
 LEX = flex
 
 TARGET = 9cc
-OBJS = lex.yy.o y.tab.o main.o myinput.o util.o
+OBJS = lex.yy.o y.tab.o myinput.o main.o node.o util.o
 LIBS = -ly -ll -lm
 
 all: $(TARGET)

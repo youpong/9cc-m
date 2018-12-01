@@ -4,13 +4,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static void codegen();
-static void *vec_pop(Vector *vec);
+static void codegen(Node *node);
 
 char **targv;
 char **arglim;
 
 Vector *stack;
+Node *node;
 
 int main(int argc, char **argv) {
   stack = new_vector();
@@ -22,9 +22,10 @@ int main(int argc, char **argv) {
   printf(".global main\n");
   printf("main:\n");
 
-  yyparse();
-  codegen();
+  yyparse();     // AST を global node に設定する
+  codegen(node); // global node を処理
 
+  printf("\tpop rax\n");
   printf("\tret\n");
 
   return EXIT_SUCCESS;
@@ -35,50 +36,35 @@ _Noreturn int yyerror(char *msg) {
   exit(EXIT_FAILURE);
 }
 
-Element *new_num_element(int num) {
-  Element *e = (Element *)malloc(sizeof(Element));
-  e->type = NUMBER;
-  e->val = num;
-  return e;
-}
-
-Element *new_element(int type) {
-  Element *e = (Element *)malloc(sizeof(Element));
-  e->type = type;
-  return e;
-}
-
-static void codegen() {
-  Element *e;
-
-  e = vec_pop(stack);
-  if (e == NULL && e->type != NUMBER)
-    error("unexpected type of element\n");
-
-  printf("\tmov rax, %d\n", e->val);
-
-  while ((e = vec_pop(stack)) != NULL) {
-    switch (e->type) {
-    case '+':
-      printf("\tadd rax, ");
-      break;
-    case '-':
-      printf("\tsub rax, ");
-      break;
-    case NUMBER:
-      printf("%d\n", e->val);
-      break;
-    default:
-      error("unexpected type of element\n");
-      break;
-    }
+static void codegen(Node *node) {
+  if (node->ty == NUMBER) {
+    printf("\tpush %d\n", node->val);
+    return;
   }
-}
 
-static void *vec_pop(Vector *vec) {
-  if (vec->len == 0)
-    return NULL;
+  codegen(node->lhs);
+  codegen(node->rhs);
 
-  vec->len -= 1;
-  return vec->data[vec->len];
+  printf("\tpop rdi\n");
+  printf("\tpop rax\n");
+
+  switch (node->ty) {
+  case '+':
+    printf("\tadd rax, rdi\n");
+    break;
+  case '-':
+    printf("\tsub rax, rdi\n");
+    break;
+  case '*':
+    printf("\tmul rdi\n");
+    break;
+  case '/':
+    printf("\tmov rdx, 0\n");
+    printf("\tdiv rdi\n");
+    break;
+  default:
+    error("unknown operator");
+  }
+
+  printf("\tpush rax\n");
 }
