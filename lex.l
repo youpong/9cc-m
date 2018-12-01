@@ -14,8 +14,10 @@
     yylval = tmp;
     return NUMBER;
 }
+\+  return '+';
+-   return '-';
 [ \t] ; /* ignore white space */
 
 \n |
-.  return yytext[0];
+.   yyerror("cannot tokenize"); 
 %%
