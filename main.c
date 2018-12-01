@@ -6,7 +6,7 @@
 
 static void codegen();
 static void *vec_pop(Vector *vec);
-  
+
 char **targv;
 char **arglim;
 
@@ -14,10 +14,9 @@ Vector *stack;
 
 int main(int argc, char **argv) {
   stack = new_vector();
-  
+
   targv = argv + 1;
   arglim = argv + argc;
-  
 
   printf(".intel_syntax noprefix\n");
   printf(".global main\n");
@@ -48,7 +47,7 @@ Element *new_element(int type) {
   e->type = type;
   return e;
 }
-  
+
 static void codegen() {
   Element *e;
 
@@ -59,12 +58,12 @@ static void codegen() {
   printf("\tmov rax, %d\n", e->val);
 
   while ((e = vec_pop(stack)) != NULL) {
-    switch(e->type) {
+    switch (e->type) {
     case '+':
       printf("\tadd rax, ");
       break;
     case '-':
-      printf("\tsub rax, ");      
+      printf("\tsub rax, ");
       break;
     case NUMBER:
       printf("%d\n", e->val);
@@ -73,14 +72,13 @@ static void codegen() {
       error("unexpected type of element\n");
       break;
     }
-
   }
 }
 
 static void *vec_pop(Vector *vec) {
-  if(vec->len == 0)
+  if (vec->len == 0)
     return NULL;
-  
+
   vec->len -= 1;
   return vec->data[vec->len];
 }
