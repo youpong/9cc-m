@@ -25,3 +25,5 @@ Node *new_node_id(char);
 /* 9cc */
 extern Vector *assigns;
 
+/* codegen */
+void gen(Node *e);
