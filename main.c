@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static void codegen(Node *e);
+static void gen(Node *e);
 static void gen_lval(Node *);
 
 char **targv;
@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
   printf("\tsub rsp, %d\n", ('z'-'a' + 1) *8);
   
   while(assigns->len > 0) {
-    codegen(vec_pop(assigns));
+    gen(vec_pop(assigns));
     printf("\tpop rax\n");    
   }
 
@@ -55,7 +55,7 @@ static void gen_lval(Node *node) {
   printf("\tpush rax\n");
 }
 
-static void codegen(Node *node) {
+static void gen(Node *node) {
   if (node->ty == NUMBER) {
     printf("\tpush %d\n", node->val);
     return;
@@ -71,7 +71,7 @@ static void codegen(Node *node) {
 
   if (node->ty == '=') {
     gen_lval(node->lhs);
-    codegen(node->rhs);
+    gen(node->rhs);
 
     printf("\tpop rdi\n");
     printf("\tpop rax\n");
@@ -80,8 +80,8 @@ static void codegen(Node *node) {
     return;
   }
   
-  codegen(node->lhs);
-  codegen(node->rhs);
+  gen(node->lhs);
+  gen(node->rhs);
 
   printf("\tpop rdi\n");
   printf("\tpop rax\n");
