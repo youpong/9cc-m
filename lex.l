@@ -25,6 +25,7 @@
 \(    return '(';
 \)    return ')';
 ;     return ';';
+=     return '=';
 [ \t] ; /* ignore white space */
 
 \n |
