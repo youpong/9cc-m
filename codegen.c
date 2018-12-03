@@ -71,6 +71,6 @@ static void gen_lval(Node *node) {
     error("lvalue must var");
 
   printf("\tmov rax, rbp\n");
-  printf("\tsub rax, %d\n", ('z' - node->name + 1) * 8);
+  printf("\tsub rax, %d\n", (*(int *)map_get(var_tab, node->name) + 1) * 8);
   printf("\tpush rax\n");
 }

@@ -20,9 +20,12 @@ Node *new_node_num(int val) {
   return node;
 }
 
-Node *new_node_id(char name) {
+Node *new_node_id(char *name) {
   Node *node = malloc(sizeof(Node));
   node->ty = IDENT;
   node->name = name;
+  if (map_get(var_tab, node->name) == NULL) {
+    map_put(var_tab, node->name, intdup(var_cnt++));
+  }
   return node;
 }

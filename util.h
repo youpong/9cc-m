@@ -7,21 +7,21 @@ typedef struct {
   int len;
 } Vector;
 
+Vector *new_vector();
+void vec_push(Vector *, void *);
+void *vec_pop(Vector *);
+
 typedef struct {
   Vector *keys;
   Vector *vals;
 } Map;
 
-Vector *new_vector();
-
-void vec_push(Vector *, void *);
-void *vec_pop(Vector *);
-
 Map *new_map();
-
 void map_put(Map *, char *, void *);
-
 void *map_get(Map *, char *);
+
+int *intdup(int);
+
 _Noreturn void error(char *, ...);
 
 // util_test

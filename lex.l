@@ -1,6 +1,7 @@
 %{
 #include "9cc.h"
 #include "y.tab.h"
+#include <string.h>
 #include <math.h>
 #include <stdio.h>
 %}
@@ -14,8 +15,8 @@
       yylval.val = tmp;
       return NUMBER;
 }
-[a-z] {
-      yylval.name = yytext[0];
+[a-z][a-zA-Z0-9]* {
+      yylval.name = strdup(yytext);
       return IDENT;
 }
 ==    return EQ;

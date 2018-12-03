@@ -8,9 +8,13 @@ char **targv;
 char **arglim;
 
 Vector *assigns;
+Map *var_tab;
+int var_cnt;
 
 int main(int argc, char **argv) {
   assigns = new_vector();
+  var_tab = new_map();
+  var_cnt = 0;
 
   targv = argv + 1;
   arglim = argv + argc;
@@ -23,7 +27,7 @@ int main(int argc, char **argv) {
 
   printf("\tpush rbp\n");
   printf("\tmov rbp, rsp\n");
-  printf("\tsub rsp, %d\n", ('z' - 'a' + 1) * 8);
+  printf("\tsub rsp, %d\n", var_cnt * 8);
 
   while (assigns->len > 0) {
     gen(vec_pop(assigns));

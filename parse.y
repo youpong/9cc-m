@@ -7,7 +7,7 @@
 
 %union {
        int val;
-       char name;
+       char *name;
        Node *node;
 }
 

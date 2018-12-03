@@ -15,15 +15,17 @@ typedef struct Node {
   struct Node *lhs;
   struct Node *rhs;
   int val;
-  char name;
+  char *name;
 } Node;
 
 Node *new_node(int, Node *, Node *);
 Node *new_node_num(int);
-Node *new_node_id(char);
+Node *new_node_id(char *);
 
 /* 9cc */
 extern Vector *assigns;
+extern Map *var_tab;
+extern int var_cnt;
 
 /* codegen */
 void gen(Node *e);
