@@ -18,6 +18,8 @@
       yylval.name = yytext[0];
       return IDENT;
 }
+==    return EQ;
+!=    return NE;
 \+    return '+';
 -     return '-';
 \*    return '*';

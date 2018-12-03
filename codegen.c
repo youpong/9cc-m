@@ -36,6 +36,16 @@ void gen(Node *node) {
   printf("\tpop rax\n");
 
   switch (node->ty) {
+  case EQ:
+    printf("\tcmp rdi, rax\n");
+    printf("\tsete al\n");
+    printf("\tmovzb rax, al\n");
+    break;
+  case NE:
+    printf("\tcmp rdi, rax\n");
+    printf("\tsetne al\n");
+    printf("\tmovzb rax, al\n");
+    break;
   case '+':
     printf("\tadd rax, rdi\n");
     break;
