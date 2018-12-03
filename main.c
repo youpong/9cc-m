@@ -16,18 +16,18 @@ int main(int argc, char **argv) {
   arglim = argv + argc;
 
   yyparse();
-  
+
   printf(".intel_syntax noprefix\n");
   printf(".global main\n");
   printf("main:\n");
 
   printf("\tpush rbp\n");
   printf("\tmov rbp, rsp\n");
-  printf("\tsub rsp, %d\n", ('z'-'a' + 1) *8);
-  
-  while(assigns->len > 0) {
+  printf("\tsub rsp, %d\n", ('z' - 'a' + 1) * 8);
+
+  while (assigns->len > 0) {
     gen(vec_pop(assigns));
-    printf("\tpop rax\n");    
+    printf("\tpop rax\n");
   }
 
   printf("\tmov rsp, rbp\n");

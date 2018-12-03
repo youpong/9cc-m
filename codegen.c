@@ -28,7 +28,7 @@ void gen(Node *node) {
     printf("\tpush rdi\n");
     return;
   }
-  
+
   gen(node->lhs);
   gen(node->rhs);
 
@@ -67,11 +67,10 @@ void gen(Node *node) {
 }
 
 static void gen_lval(Node *node) {
-  if(node->ty != IDENT)
+  if (node->ty != IDENT)
     error("lvalue must var");
 
   printf("\tmov rax, rbp\n");
-  printf("\tsub rax, %d\n",
-	 ('z' - node->name + 1) * 8);
+  printf("\tsub rax, %d\n", ('z' - node->name + 1) * 8);
   printf("\tpush rax\n");
 }
