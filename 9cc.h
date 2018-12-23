@@ -16,6 +16,16 @@ typedef struct Node {
   struct Node *rhs;
   int val;
   char *name;
+
+  // "if" ( cond ) then "else" els
+  // "switch" ( cond ) body
+  // "case" val : body 
+  // "for" (init; cond; inc) body
+  // "while" ( cond ) body
+  // "do" body "while" ( cond ); // tail ; ?
+  struct Node *cond;
+  struct Node *then;
+  struct Node *els;
 } Node;
 
 Node *new_node(int, Node *, Node *);
@@ -29,3 +39,6 @@ extern int var_cnt;
 
 /* codegen */
 void gen(Node *e);
+
+/* debug */
+void p_tree(Node *);

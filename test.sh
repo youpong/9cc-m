@@ -8,16 +8,15 @@ try() {
     ./9cc "$input" > tmp.s
     if [ $? != 0 ]; then
 	echo "$3: cann't compile"
-	exit 1
+	return
     fi
     
-    gcc -o tmp tmp.s
+    gcc -o tmp tmp.s 2>/dev/null
     ./tmp
     actual="$?"
 
     if [ "$actual" != "$expected" ]; then
 	echo "$msg: $expected expected, but got $actual"
-	exit 1
     fi
 }
 
@@ -55,6 +54,8 @@ try  1    '16==33-17;' t121
 try  1    '23+24 != 25;' t122
 try  0    '26+27 != 53;' t123
 try 29    'aa=28+1;'     t130
+try 30    'a = 30;if ( 1 ) a = 31; a;' t140
+try 31    'a = 32;if ( 0 ) a = 33; a;' t141
 
 #try 99 '(1' t200 # missing ')'
 #try 99 ''   't201 missing expr'
