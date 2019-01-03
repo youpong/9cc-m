@@ -13,6 +13,8 @@ Vector *assigns;
 Map *var_tab;
 int var_cnt;
 
+int lineno = 1;
+
 int main(int argc, char **argv) {
   bool ast_flg = false;
   assigns = new_vector();

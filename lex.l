@@ -8,29 +8,36 @@
 
 %option nounput noinput
 
+ws     [ \t]
+digit  [0-9]
+letter [a-zA-Z]
+
 %%
-[0-9][0-9]* {
+{digit}+ {
       int tmp;
       sscanf(yytext, "%d", &tmp);
       yylval.val = tmp;
       return NUMBER;
 }
-[a-z][a-zA-Z0-9]* {
+{letter}({letter}|{digit})* {
       yylval.name = strdup(yytext);
       return IDENT;
 }
-==    return EQ;
-!=    return NE;
-\+    return '+';
--     return '-';
-\*    return '*';
-\/    return '/';
-\(    return '(';
-\)    return ')';
-;     return ';';
-=     return '=';
-[ \t] ; /* ignore white space */
 
-\n |
+"="   return '=';
+"=="  return EQ;
+"!="  return NE;
+
+"+"   return '+';
+"-"   return '-';
+"*"   return '*';
+"/"   return '/';
+"("   return '(';
+")"   return ')';
+
+";"   return ';';
+
+{ws}+ ; /* ignore white space */
+\n    lineno++;
 .     yyerror("cannot tokenize");
 %%
