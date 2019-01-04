@@ -8,11 +8,14 @@
 
 %option nounput noinput
 
+
 ws     [ \t]
 digit  [0-9]
 letter [a-zA-Z]
 
 %%
+
+
 {digit}+ {
       int tmp;
       sscanf(yytext, "%d", &tmp);
@@ -41,3 +44,10 @@ letter [a-zA-Z]
 \n    lineno++;
 .     yyerror("cannot tokenize");
 %%
+
+// 以下の5つの行でコメントを使えるようになる（と思う）。
+// %s COMMENT COMMENT2
+//"/*"          { BEGIN COMMENT; }
+//<COMMENT>.    ;
+//<COMMENT>\n   { lineno++; }
+//<COMMENT>"*/" { BEGIN 0; }

@@ -1,9 +1,9 @@
 #include "9cc.h"
 #include "util.h"
 #include "y.tab.h"
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <string.h>
 
 char **targv;
@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
     argc--;
     argv++;
   }
-  
+
   targv = argv + 1;
   arglim = argv + argc;
 
@@ -39,7 +39,6 @@ int main(int argc, char **argv) {
     printf("}\n");
     return EXIT_SUCCESS;
   }
-
 
   printf(".intel_syntax noprefix\n");
   printf(".global main\n");
