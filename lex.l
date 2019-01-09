@@ -8,21 +8,26 @@
 
 %option nounput noinput
 
+delim    [ \t]
+digit    [0-9]
+letter   [a-zA-Z]
 
-ws     [ \t]
-digit  [0-9]
-letter [a-zA-Z]
+ws       {delim}+
+number   {digit}+
+id       {letter}({letter}|{digit})*
 
 %%
 
+{ws}     { ; /* ignore white space */ }
 
-{digit}+ {
+{number} {
       int tmp;
       sscanf(yytext, "%d", &tmp);
       yylval.val = tmp;
       return NUMBER;
 }
-{letter}({letter}|{digit})* {
+
+{id}     {
       yylval.name = strdup(yytext);
       return IDENT;
 }
@@ -40,9 +45,9 @@ letter [a-zA-Z]
 
 ";"   return ';';
 
-{ws}+ ; /* ignore white space */
 \n    lineno++;
 .     yyerror("cannot tokenize");
+
 %%
 
 // 以下の5つの行でコメントを使えるようになる（と思う）。
